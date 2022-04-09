@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
     
-    <title>Dashboard</title>
+    <title>View Bug</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> 
@@ -21,7 +21,8 @@
 
     <!-- Custom styles for this template -->
     <link href="offcanvas.css" rel="stylesheet">
-    <link href="static/main/style1.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'my-post/style1.css'%}" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -34,14 +35,14 @@
 
         <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="dashboard">Dashboard <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="feed">Feed</a>
+                    <a class="nav-link" href="/feed">Feed</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="add-new-bug">Add New Bug</a>
+                    <a class="nav-link" href="/add-new-bug">Add New Bug</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Switch account</a>
@@ -82,65 +83,30 @@
 
     <main role="main" class="container">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
-            <img class="mr-3" src="static/main/img/db.png" alt="" width="48" height="48">
-            <div class="lh-100">
-                
-                <h4>Hello {{user.get_username}}!</h4>
-            </div>
+            <dl class="row">
+                <dt class="col-sm-3">Bug Title</dt>
+                <dd class="col-sm-9">{{post_qs.title}}</dd>
+              
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-9">
+                  <p>{{post_qs.description}} </p>
+                </dd>
+                <dt class="col-sm-3">Comments</dt>
+                <dd class="col-sm-9">No Comments..
+                    <!--<dt class="col-sm-4">Nested definition list</dt>
+      <dd class="col-sm-8">I heard you like definition lists. Let me put a definition list inside your definition list.</dd>
+                -->
+                </dd>
+              </dl>
+              
         </div>
-
-        <div class="my-3 p-3 bg-white rounded box-shadow">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Your Recent Bugs</h6>
-            {% for e in main_qs %}
-            <div class="media pt-3">
-                <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
-                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <strong class="d-block "><a href="/my-post/{{e.id}}">{{e.title}}</a></strong>
-                    {{e.description}}
-                </p>
-            </div>
-            {% endfor %}
-            <small class="d-block text-right mt-3">
-                <a href="#">All bugs</a>
-            </small>
-        </div>
-
-        <div class="my-3 p-3 bg-white rounded box-shadow">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Leaderboard</h6>
-            <div class="media pt-3">
-                <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
-                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <strong class="">Prathamesh Gautame</strong>
-                        <a href="#">Expert</a>
-                    </div>
-                    <span class="d-block">Staff Software Engineer</span>
-                </div>
-            </div>
-            <div class="media pt-3">
-                <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
-                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <strong class="">Ram Ramrakhya</strong>
-                        <a href="#">Expert</a>
-                    </div>
-                    <span class="d-block">Software Development Engineer(SDE-1)</span>
-                </div>
-            </div>
-            <div class="media pt-3">
-                <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
-                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <strong class="">Nikhil Joshi</strong>
-                        <a href="#">Specialist</a>
-                    </div>
-                    <span class="d-block">Pricipal Software Engineer in Test</span>
-                </div>
-            </div>
-            <small class="d-block text-right mt-3">
-                <a href="#">See more...</a>
-            </small>
-        </div>
+        <form action="" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Enter Your Solution"></textarea>
+          </div>
+          <button type="button" class="btn btn-success">Submit</button>
+        </form>
     </main>
 
     <!-- Bootstrap core JavaScript
