@@ -22,7 +22,7 @@
     <!-- Custom styles for this template -->
     <link href="offcanvas.css" rel="stylesheet">
     {% load static %}
-    <link href="{% static 'my-post/style1.css'%}" rel="stylesheet">
+    <link href="{% static 'leaderboard/style1.css' %}" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -36,19 +36,19 @@
         <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">Dashboard <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="dashboard">Dashboard <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/feed">Feed</a>
+                    <a class="nav-link" href="feed">Feed</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/add-new-bug">Add New Bug</a>
+                    <a class="nav-link" href="add-new-bug">Add New Bug</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/leaderboard">Leaderboard</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="leaderboard">Leaderboard</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" method="GET" action="/sign-out">
+            <form class="form-inline my-2 my-lg-0" method="GET" action="sign-out">
                 <button class="btn my-2 my-sm-0 dingo" type="submit">Logout</button>
             </form> 
         </div>
@@ -56,45 +56,27 @@
 
    <main role="main" class="container">
         <div class="content">
-            <div class="post-title">
-                <h1>{{post_qs.title}}</h1>
-            </div>
-            <div class="postDesc">
-                <h6>{{post_qs.description}}</h6>
-            </div>
-            <div class="comment">
-                <h2>{{post_qs.number_of_comments}} Comments</h2>
-                {% for k in comment_ps %}
-                <div class="row commentSng commentSng{{k.id}}">
-                    <div class="col-sm-12 strip">
-                      <!--<img src="http://lorempixel.com/50/50/people/" alt="profile image" /> -->
-                      <strong>{{k.author}}</strong> <span class="light"> @{{k.author}} - <span class="time">{{k.date_posted}}</span></span><br>
-                      {{k.text}}<br>
-                      <div class="summary">
-                        <span class="buttons">
-                         <a href="#"><i class="fa fa-reply dingdong"></i> Rate This!&#11088;</a>
-                          <!--<a href="#"><i class="fa fa-ellipsis-h"></i> More ..</a>-->
-                          <form action="feedback" method="post">
-                          {% csrf_token %}
-                            <input type="number" value="{{k.id}}" name="commentid" class="hidden">
-                            <input type="range" name="rating" class="form-range" min="1" max="5" default="1" id="customRange2">
-                            <button type="submit" class="submit-btn">&#9989;</button>
-                        </form>
-                        </span>
-                        <!--<a href="/my-post/{{e.id}}"><i class="fa fa-file-o"></i> View summary</a> View User Profile-->
-                      </div>
-                    </div>
-                  </div>
+            <table class="table table-striped table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">No. of Submissions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for k in users %}
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>{{ k.0 }}</td>
+                    <td>Master</td>
+                    <td>{{ k.1 }}</td>
+                  </tr>
                 {% endfor %}
-            </div>
+                </tbody>
+              </table>
         </div>
-        <form action="" method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Enter Your Solution" name="text"></textarea>
-          </div>
-          <button type="submit" class="btn btn-success">Submit</button>
-        </form>
     </main>
 
     <!-- Bootstrap core JavaScript
@@ -108,7 +90,7 @@
     <script src="../../dist/js/bootstrap.min.js"></script>
     <script src="../../assets/js/vendor/holder.min.js"></script>
     <script src="offcanvas.js"></script>
-    <script src="{% static 'my-post/rating.js'%}"></script>
+    <script src="{% static 'my-post/rating.js' %}"></script>
 </body>
 
 </html>

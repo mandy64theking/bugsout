@@ -28,3 +28,6 @@ body {
 .hidden{
   display:none;
 }
+.content{
+  margin-top: 100px;
+}

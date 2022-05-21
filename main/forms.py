@@ -8,3 +8,7 @@ class newCommentForm(forms.ModelForm):
     class Meta:
         model=Comment
         fields=['text']
+class feedbackForm(forms.ModelForm):
+    class Meta:
+        model=Feedback
+        fields=['rating','commentid']

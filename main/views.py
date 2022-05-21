@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import *
 from .forms import *
+from django.contrib.auth.models import User
 # Create your views here.
 def index(request):
     qs=Post.objects.filter(author=request.user)
@@ -20,4 +21,38 @@ def newbug(request):
     return render(request, 'newbug/index.html')
 def postie(request,id):
     qs=Post.objects.get(id=id)
-    return render(request,'my-post/index.html',{'post_qs':qs})
+    if request.method=="POST":
+        form=newCommentForm(request.POST)
+        if form.is_valid():
+            text=form.cleaned_data["text"]
+            instance=form.save(commit=False)
+            instance.author=request.user
+            instance.post_connected=qs
+            instance.save()
+    cc=Comment.objects.filter(post_connected=qs)
+    return render(request,'my-post/index.html',{'post_qs':qs,'comment_ps':cc})
+def feedback(request):
+    if request.method=="POST":
+        form=feedbackForm(request.POST)
+        if form.is_valid():
+            rating=form.cleaned_data["rating"]
+            commentid=form.cleaned_data["commentid"]
+            instance=form.save(commit=False)
+            instance.comment_connected=Comment.objects.get(id=commentid)
+            instance.user_connected=Comment.objects.get(id=commentid).author
+            instance.save()
+    return(redirect('/feed'))
+def leaderboard(request):
+    userall=User.objects.all()
+    dict={}
+    i=0
+    cols=2
+    rows=10
+    arr = [[0 for i in range(cols)] for j in range(rows)]
+    for k in userall:
+        fk=Feedback.objects.filter(user_connected=k).count()
+        arr[i][0]=k
+        arr[i][1]=fk
+        i=i+1
+    print(arr)
+    return(render(request,'leaderboard/index.html',{'users':arr}))
