@@ -70,7 +70,18 @@
                     <tr>
                         <th scope="row">1</th>
                         <td>{{ k.0 }}</td>
-                        <td>Master</td>
+                        <td>{% if k.2 < 1.0 %}
+                            Newbie
+                            {% elif k.2 >= 4.0 %}
+                            Master
+                            {% elif k.2 < 4.0 and k.2 > 3.0  %}
+                            Candidate Master
+                            {% elif k.2 < 3.0 and k.2 > 2.0 %}
+                            Specialist
+                            {% elif k.2 < 2.0 and k.2 > 1.0 %}
+                            Pupil
+                        {% endif %}
+                        </td>
                         <td>{{ k.1 }}</td>
                     </tr>
                     {% endfor %}

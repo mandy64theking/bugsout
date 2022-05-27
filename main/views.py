@@ -46,13 +46,24 @@ def leaderboard(request):
     userall=User.objects.all()
     dict={}
     i=0
-    cols=2
+    cols=3
     rows=10
     arr = [[0 for i in range(cols)] for j in range(rows)]
     for k in userall:
         fk=Feedback.objects.filter(user_connected=k).count()
+        tk=Feedback.objects.filter(user_connected=k)
+        sum=0
+        try :
+            sum=sum+tk[0].rating
+        except :
+            sum=sum+0
         arr[i][0]=k
         arr[i][1]=fk
+        if  fk!=0:
+            arr[i][2]=sum/fk
+        else:
+            arr[i][2]=0
         i=i+1
+    arr.sort(key=lambda x:x[1] ,reverse=True)
     print(arr)
     return(render(request,'leaderboard/index.html',{'users':arr}))
