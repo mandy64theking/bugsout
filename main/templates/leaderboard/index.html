@@ -59,23 +59,24 @@
             <table class="table table-striped table-dark">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">#
+                        </th>
                         <th scope="col">Username</th>
                         <th scope="col">Rating</th>
                         <th scope="col">No. of Submissions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for k in users %}
+                    {% for count,k in users %}
                     <tr>
-                        <th scope="row">1</th>
+                        <th scope="row">{{ count }}</th>
                         <td>{{ k.0 }}</td>
                         <td>{% if k.2 < 1.0 %}
                             Newbie
                             {% elif k.2 >= 4.0 %}
                             Master
                             {% elif k.2 < 4.0 and k.2 > 3.0  %}
-                            Candidate Master
+                            Expert
                             {% elif k.2 < 3.0 and k.2 > 2.0 %}
                             Specialist
                             {% elif k.2 < 2.0 and k.2 > 1.0 %}

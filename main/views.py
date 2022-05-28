@@ -44,10 +44,11 @@ def feedback(request):
     return(redirect('/feed'))
 def leaderboard(request):
     userall=User.objects.all()
+    count=userall.count()
     dict={}
     i=0
     cols=3
-    rows=10
+    rows=count
     arr = [[0 for i in range(cols)] for j in range(rows)]
     for k in userall:
         fk=Feedback.objects.filter(user_connected=k).count()
@@ -66,4 +67,4 @@ def leaderboard(request):
         i=i+1
     arr.sort(key=lambda x:x[1] ,reverse=True)
     print(arr)
-    return(render(request,'leaderboard/index.html',{'users':arr}))
+    return(render(request,'leaderboard/index.html',{'users':enumerate(arr,start=1)}))
